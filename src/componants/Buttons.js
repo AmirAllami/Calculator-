@@ -6,6 +6,13 @@ class Buttons extends React.Component {
       <div>
         <button
           onClick={() => {
+            this.props.p(0);
+          }}
+        >
+          0
+        </button>
+        <button
+          onClick={() => {
             this.props.p(1);
           }}
         >
@@ -16,7 +23,6 @@ class Buttons extends React.Component {
             this.props.p(2);
           }}
         >
-          {" "}
           2
         </button>
         <button
@@ -68,11 +74,41 @@ class Buttons extends React.Component {
         >
           9
         </button>
-        <button>+</button>
-        <button>-</button>
-        <button>×</button>
-        <button>/</button>
-        <button>=</button>
+        <button
+          onClick={() => {
+            this.props.b("+");
+          }}
+        >
+          +
+        </button>
+        <button
+          onClick={() => {
+            this.props.b("-");
+          }}
+        >
+          -
+        </button>
+        <button
+          onClick={() => {
+            this.props.b("*");
+          }}
+        >
+          ×
+        </button>
+        <button
+          onClick={() => {
+            this.props.b("/");
+          }}
+        >
+          /
+        </button>
+        <button
+          onClick={() => {
+            this.props.c();
+          }}
+        >
+          =
+        </button>
       </div>
     );
   }

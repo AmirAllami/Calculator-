@@ -10,10 +10,10 @@ class App extends React.Component {
       num2: null,
       results: null,
       ope: "",
-      equal: null,
     };
     this.changingInput = this.changingInput.bind(this);
     this.equalizer = this.equalizer.bind(this);
+    this.point = this.point.bind(this);
   }
 
   componentDidMount() {
@@ -39,11 +39,11 @@ class App extends React.Component {
       ) {
         this.Oprations(event.key);
       } else if (event.key === "Backspace") {
-        this.setState({
-          num: this.state.num.slice(0, -1),
-        });
+        this.setState({ num: this.state.num.slice(0, -1) });
       } else if (event.key === "=" || event.key === "Enter") {
         this.equalizer();
+      } else if (event.key === ".") {
+        this.point();
       }
     });
   }
@@ -51,90 +51,115 @@ class App extends React.Component {
     let num2 = this.state.num + a;
     this.setState({ num: num2 });
   };
+
   Oprations = (b) => {
     this.setState({
       ope: b,
     });
-    if (b === "+") {
+
+    if (b === "+" || b === "-" || b === "*" || b === "/") {
       if (this.state.num2 === null && this.state.results === null) {
         this.setState({ num2: +this.state.num, num: "" });
-      } else if (this.state.results === null) {
+      } else {
+        this.op(this.state.ope);
+      }
+    }
+  };
+  op = (c) => {
+    if (c === "+") {
+      if (this.state.results === null) {
         this.setState({
           results: this.state.num2 + +this.state.num,
           num: "",
           num2: null,
-          ope: "",
         });
       } else {
         this.setState({
           results: +this.state.num + this.state.results,
           num: "",
-          ope: "",
         });
       }
-    } else if (b === "-") {
-      if (this.state.num2 === null && this.state.results === null) {
-        this.setState({ num2: +this.state.num, num: "" });
-      } else if (this.state.results === null) {
+    } else if (c === "-") {
+      if (this.state.results === null) {
         this.setState({
           results: this.state.num2 - +this.state.num,
           num: "",
           num2: null,
-          ope: "",
         });
       } else {
         this.setState({
           results: this.state.results - +this.state.num,
           num: "",
-          ope: "",
         });
       }
-    } else if (b === "*") {
-      if (this.state.num2 === null && this.state.results === null) {
-        this.setState({ num2: +this.state.num, num: "" });
-      } else if (this.state.results === null) {
+    } else if (c === "*") {
+      if (this.state.num !== "") {
+        if (this.state.results === null) {
+          this.setState({
+            results: this.state.num2 * +this.state.num,
+            num: "",
+            num2: null,
+          });
+        } else {
+          this.setState({
+            results: this.state.results * +this.state.num,
+            num: "",
+          });
+        }
+      }
+    } else if (c === "/") {
+      if (this.state.num !== "") {
+        if (this.state.results === null) {
+          this.setState({
+            results: this.state.num2 / +this.state.num,
+            num: "",
+            num2: null,
+          });
+        } else {
+          this.setState({
+            results: this.state.results / +this.state.num,
+            num: "",
+          });
+        }
+      }
+    }
+  };
+  equalizer = () => {
+    if (this.state.ope !== "") {
+      this.op(this.state.ope);
+      this.setState({ num: "", ope: "" });
+    }
+  };
+
+  backSpace = () => {
+    this.setState({
+      num: this.state.num.slice(0, -1),
+    });
+  };
+
+  point = () => {
+    if (this.state.num.indexOf(".") === -1) {
+      if (this.state.num === "") {
         this.setState({
-          results: this.state.num2 * +this.state.num,
-          num: "",
-          num2: null,
-          ope: "",
+          num: this.state.num + "0.",
         });
       } else {
         this.setState({
-          results: this.state.results * +this.state.num,
-          num: "",
-          ope: "",
-        });
-      }
-    } else if (b === "/") {
-      if (this.state.num2 === null && this.state.results === null) {
-        this.setState({ num2: +this.state.num, num: "" });
-      } else if (this.state.results === null) {
-        this.setState({
-          results: this.state.num2 / +this.state.num,
-          num: "",
-          num2: null,
-          ope: "",
-        });
-      } else {
-        this.setState({
-          results: this.state.results / +this.state.num,
-          num: "",
-          ope: "",
+          num: this.state.num + ".",
         });
       }
     }
   };
 
-  equalizer() {
-    if (this.state.ope !== "") {
-      this.Oprations(this.state.ope);
-      this.setState({
-        num: this.state.results,
-        results: null,
-      });
-    }
-  }
+  clear = () => {
+    this.setState({
+      num: "",
+      num2: null,
+      results: null,
+      ope: "",
+    });
+  };
+
   render() {
     let x = +this.state.num;
     if (this.state.results !== null && this.state.num === "") {
@@ -143,7 +168,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <input type="text" value={x} readOnly />
-        <Buttons p={this.changingInput} b={this.Oprations} c={this.equalizer} />
+        <Buttons
+          p={this.changingInput}
+          b={this.Oprations}
+          c={this.equalizer}
+          dot={this.point}
+          ce={this.backSpace}
+          ac={this.clear}
+        />
       </div>
     );
   }

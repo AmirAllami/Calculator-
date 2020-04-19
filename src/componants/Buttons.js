@@ -4,6 +4,7 @@ class Buttons extends React.Component {
   render(props) {
     return (
       <div>
+        <div className="first-case"></div>
         <button
           onClick={() => {
             this.props.p(0);
@@ -108,6 +109,28 @@ class Buttons extends React.Component {
           }}
         >
           =
+        </button>
+        <button
+          onClick={() => {
+            this.props.dot();
+          }}
+        >
+          .
+        </button>
+        <button
+          onClick={() => {
+            this.props.ac();
+          }}
+        >
+          AC
+        </button>
+        <button>+/-</button>
+        <button
+          onClick={() => {
+            this.props.ce();
+          }}
+        >
+          CE
         </button>
       </div>
     );

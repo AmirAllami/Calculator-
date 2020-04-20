@@ -150,6 +150,18 @@ class App extends React.Component {
       }
     }
   };
+  negative = () => {
+    if (this.state.num.indexOf("-") === -1) {
+      this.setState({
+        num: "-" + this.state.num,
+      });
+      console.log(this.state.num);
+    } else {
+      this.setState({
+        num: this.state.num.substr(1),
+      });
+    }
+  };
 
   clear = () => {
     this.setState({
@@ -167,7 +179,7 @@ class App extends React.Component {
     }
     return (
       <div className="App">
-        <input type="text" value={x} readOnly />
+        <div className="display">{x}</div>
         <Buttons
           p={this.changingInput}
           b={this.Oprations}
@@ -175,6 +187,7 @@ class App extends React.Component {
           dot={this.point}
           ce={this.backSpace}
           ac={this.clear}
+          neg={this.negative}
         />
       </div>
     );

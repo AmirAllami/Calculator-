@@ -152,10 +152,15 @@ class App extends React.Component {
   };
   negative = () => {
     if (this.state.num.indexOf("-") === -1) {
-      this.setState({
-        num: "-" + this.state.num,
-      });
-      console.log(this.state.num);
+      if (this.state.num === "") {
+        this.setState({
+          num: "-0",
+        });
+      } else {
+        this.setState({
+          num: "-" + this.state.num,
+        });
+      }
     } else {
       this.setState({
         num: this.state.num.substr(1),
